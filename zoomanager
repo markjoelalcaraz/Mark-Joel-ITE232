@@ -1,0 +1,388 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ */
+
+package com.mycompany.zoo;
+
+/**
+ *
+ * @author Mark Joel
+ */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ */
+
+
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.List;
+
+abstract class Animal {
+    String name;
+    int age;
+    double weight;
+    
+    public Animal(String name, int age, double weight){
+    this.name = name;
+    this.age =  age;
+    this.weight = weight;
+}
+     abstract void makeSound();
+     abstract void eat();
+     abstract void sleep();
+}
+
+interface Flyable {
+    void fly();
+}
+
+interface Swimmable {
+    void swim();
+}
+
+interface Climber{
+    void climb();
+}
+
+
+class Mammal extends Animal {
+
+    Mammal(String name, int age, double weight) {
+         super(name, age, weight);
+    }
+     @Override
+    void makeSound(){
+        System.out.println( name + " is making sound");
+    }
+    @Override
+    void eat() {
+         System.out.println( name + " is eating");
+    }
+    @Override
+    void sleep() {
+         System.out.println( name + " is sleeping");
+    }
+  
+}
+
+class Primate extends Mammal {
+    
+    public Primate(String name, int age, double weight) {
+        super(name, age, weight);
+    }
+    
+}
+
+class Ape extends Primate implements Climber{
+
+    public Ape(String name, int age, double weight) {
+        super(name, age, weight);
+    }
+    @Override
+    public void climb() {
+        
+    }
+}
+
+class Monkey extends Primate implements Climber{
+
+    public Monkey(String name, int age, double weight) {
+        super(name, age, weight);
+    }
+    @Override
+    public void climb() {
+        
+    }
+}
+
+class Bird extends Animal implements Flyable {
+
+    public Bird(String name, int age, double weight) {
+        super(name, age, weight);
+    }
+      @Override
+    void makeSound(){
+         System.out.println( name + " is chirping");
+    }
+    @Override
+    void eat() {
+        System.out.println( name + " is eating");
+    }
+    @Override
+    void sleep() {
+        System.out.println( name + " is sleeping");
+    }
+
+    @Override
+    public void fly() {
+        System.out.println( name + " is flying");
+    }
+    
+    
+}
+
+class Reptile extends Animal {
+
+    Reptile(String name, int age, double weight) {
+         super(name, age, weight);
+    }
+    @Override
+    void makeSound(){
+        System.out.println( name + " is making sound");
+    }
+    @Override
+    void eat() {
+        System.out.println( name + " is eating");
+    }
+    @Override
+    void sleep() {
+        System.out.println( name + " is sleeping");
+    }
+}
+
+class Fish extends Animal implements Swimmable {
+
+    Fish(String name, int age, double weight) {
+         super(name, age, weight);
+    }
+   @Override
+    void makeSound(){
+       System.out.println( name + " makes sound");
+    }
+    @Override
+    void eat() {
+        System.out.println( name + " is eating");
+    }
+    @Override
+    void sleep() {
+        System.out.println( name + " is sleeping");
+    }
+
+    @Override
+    public void swim() {
+        System.out.println( name + " swims");
+    }
+    }
+
+
+abstract class Habitat {
+    List<Animal> inhabitants;
+
+    public Habitat() {
+        inhabitants = new ArrayList<>();
+    }
+
+  
+    public void addAnimal(Animal animal) {
+        inhabitants.add(animal);
+    }
+
+    
+    public abstract void simulateInteractions();
+}
+
+
+class Aviary extends Habitat {
+    @Override
+    public void simulateInteractions() {
+        for (Animal animal : inhabitants) {
+            animal.makeSound();
+            if (animal instanceof Flyable flyable) {
+                flyable.fly();
+            }
+            animal.eat();
+            animal.sleep();
+        }
+    }
+
+    void feedAnimal() {
+    }
+}
+
+
+class Aquarium extends Habitat {
+    @Override
+    public void simulateInteractions() {
+        for (Animal animal : inhabitants) {
+            animal.makeSound();
+            if (animal instanceof Swimmable swimmable) {
+                swimmable.swim();
+            }
+            animal.eat();
+            animal.sleep();
+        }
+    }
+
+    void feedAnimal() {
+    }
+}
+
+
+class Savannah extends Habitat {
+    @Override
+    public void simulateInteractions() {
+        for (Animal animal : inhabitants) {
+            animal.makeSound();
+            animal.eat();
+            animal.sleep();
+        }
+    }
+
+    void feedAnimal() {
+    }
+}
+
+
+class Jungle extends Habitat {
+    @Override
+    public void simulateInteractions() {
+        for (Animal animal : inhabitants) {
+            animal.makeSound();
+            if (animal instanceof Climber climber) {
+                climber.climb();
+            }
+            animal.eat();
+            animal.sleep();
+        }
+    }
+
+    void feedAnimal() {
+        
+    }
+}
+
+
+public class Zoo {
+    public static void main(String[] args) {
+        ZooManager zooManager = new ZooManager();
+        zooManager.run();
+    }
+}
+
+class ZooManager {
+    private ArrayList<Animal> animals;
+    private Aviary aviary;
+    private Aquarium aquarium;
+    private Savannah savannah;
+    private Jungle jungle;
+    private Scanner scanner;
+
+    public ZooManager() {
+        aviary = new Aviary();
+        aquarium = new Aquarium();
+        savannah = new Savannah();
+        jungle = new Jungle();
+        animals = new ArrayList<>();
+        scanner = new Scanner(System.in);
+    }
+
+    public void run() {
+        while (true) {
+            System.out.println("\n Zoo Management System ");
+            System.out.println("1. Add animal");
+            System.out.println("2. view all animals");
+            System.out.println("3. view animals in a specific habitat");
+            System.out.println("4. Feed the animals");
+            System.out.println("5. Simulate the animals");
+            System.out.println("6. Exit");
+            System.out.println("Please enter your choice:");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); 
+            switch (choice) {
+                case 1 -> addAnimal();
+                case 2 -> viewAllAnimals();
+                case 3 -> viewAnimalsInHabitat();
+                case 4 -> feedAnimal();
+                case 5 -> simulateBehavior();
+                case 6 -> {
+                    System.out.println("You have completely exited the system");
+                    return;
+                }
+                default -> System.out.println("invalid, Please try again");
+            }
+        }
+    }
+
+    private void addAnimal() {
+        System.out.println("Enter the type of animal you want to add:(Mammal/Fish/Bird/Reptile)");
+        String type = scanner.nextLine();
+
+        System.out.println("Enter name:");
+        String name = scanner.nextLine();
+
+        System.out.println("Enter age:");
+        int age = scanner.nextInt();
+        scanner.nextLine(); 
+
+        System.out.println("Enter weight:");
+        double weight = scanner.nextDouble();
+        scanner.nextLine(); 
+
+        Animal animal = null;
+
+        if (type.equalsIgnoreCase("mammal")) {
+            animal = new Mammal(name, age, weight);
+            savannah.addAnimal(animal); 
+        } else if (type.equalsIgnoreCase("fish")) {
+            animal = new Fish(name, age, weight);
+            aquarium.addAnimal(animal);
+        } else if (type.equalsIgnoreCase("bird")) {
+            animal = new Bird(name, age, weight);
+            aviary.addAnimal(animal); 
+        } else if (type.equalsIgnoreCase("reptile")) {
+            animal = new Reptile(name, age, weight);
+            jungle.addAnimal(animal); 
+        } else {
+            System.out.println("Invalid animal type.");
+            return;
+        }
+
+        animals.add(animal);
+        System.out.println("Animal added successfully.");
+    }
+
+    private void viewAllAnimals() {
+        System.out.println("\n All Animals in the Zoo ");
+        for (Animal animal : animals) {
+            System.out.println(animal);
+        }
+    }
+
+    private void viewAnimalsInHabitat() {
+        System.out.println("\n Animals in Specific Habitats ");
+        System.out.println("Aviary:");
+        aviary.simulateInteractions();
+        System.out.println("\nAquarium:");
+        aquarium.simulateInteractions();
+        System.out.println("\nSavannah:");
+        savannah.simulateInteractions();
+        System.out.println("\nJungle:");
+        jungle.simulateInteractions();
+    }
+
+    private void feedAnimal() {
+        System.out.println("\n Feeding Animals ");
+        System.out.println("Feeding birds in the Aviary");
+        aviary.feedAnimal();
+        System.out.println("Feeding fish in the Aquarium");
+        aquarium.feedAnimal();
+        System.out.println("Feeding mammals in the Savannah");
+        savannah.feedAnimal();
+        System.out.println("Feeding primates in the Jungle");
+        jungle.feedAnimal();
+        System.out.println("All animals fed.");
+    }
+
+    private void simulateBehavior() {
+        System.out.println("\n Simulating Animal Behavior ");
+        System.out.println("Simulating bird behavior in the Aviary");
+        aviary.simulateInteractions();
+        System.out.println("Simulating fish behavior in the Aquarium");
+        aquarium.simulateInteractions();
+        System.out.println("Simulating mammal behavior in the Savannah");
+        savannah.simulateInteractions();
+        System.out.println("Simulating primate behavior in the Jungle");
+        jungle.simulateInteractions();
+    }
+}
